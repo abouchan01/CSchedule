@@ -11,13 +11,9 @@ typedef struct nodo{
 	int dia;
 	char mes[12];
 	char hora[8];
-	char status[20];
 	struct nodo* siguiente;
 	struct nodo* atras;
 }nodo;
-
-//La siguiente variable contendrá el numero de tareas que tenemos enlistadas.
-int numeroDeNodos = 0;
 
 //Inicializamos los punteros en un lugar vacío para irlos llenando poco a poco
 nodo* primero = NULL;
@@ -42,35 +38,27 @@ int main(){
 			case 1:
 				printf("\n\n INSERTA TAREA EN LA LISTA \n\n");
 				insertarNodo();
-				system("cls");
+				getchar();
 				break;
 			case 2:
 				printf("\n\n BUSCAR UNA TAREA EN LA LISTA \n\n");
 				buscarNodo();
 				getchar();
-				getchar();
-				system("cls");
 				break;	
 			case 3:
 				printf("\n\n MODIFICAR UNA TAREA \n\n");
 				modificarNodo();
 				getchar();
-				getchar();
-				system("cls");
 				break;
 			case 4:
 				printf("\n\n ELIMINAR UNA TAREA DE LA LISTA \n\n");
 				eliminarNodo();
 				getchar();
-				getchar();
-				system("cls");
 				break;
 			case 5:
 				printf("\n\n DESPLEGAR LISTA DE TODAS LAS TAREAS DE LA PRIMERA A LA UTLIMA\n\n");
 				desplegarListaPU();
-				
 				break;
-				
 			case 6:
 				printf("\n\n Programa finalizado...");
 				return 0;
@@ -78,15 +66,9 @@ int main(){
 			case 7:
 				buscarNodo();
 				break;
-			case 8:
-				printf("las tareas enlistadas son: %i", numeroDeNodos);
-				getchar();
-				getchar();
-				system("cls");
 						
 			default:
 				printf("\n\n Opcion No Valida \n\n");
-				getchar();
 				getchar();
 		}
 	}while(opcionMenu != 6);
@@ -97,22 +79,19 @@ int main(){
 //de un nuevo nodo
 void insertarNodo(){
 	nodo* nuevo = (nodo*)malloc(sizeof(nodo));
-	printf("\nIngrese el dato que contendra el nuevo Nodo:  (numero) ");
+	printf(" Ingrese el dato que contendra el nuevo Nodo: ");
 	printf("\n (el dato nos ayuda como ID de la tarea)\n");
 	scanf("%i", &nuevo->dato);
-	printf("\nSi los siguientes datos requieren de espacios, por favor en lugar de el usa guion bajo o notacion upper-lower cammel");
-	printf("\nIngrese actividad por hacer: ");
+	printf(" Ingrese actividad por hacer: ");
 	scanf("%s", &nuevo->actividad);
 	printf("\nIngrese lugar:");
 	scanf( "%s", &nuevo->lugar);
-	printf("\nIngrese dia:(numero) ");
+	printf(" Ingrese dia: ");
 	scanf("%i", &nuevo->dia); 
-	printf("\nIngrese mes:  ");
+	printf(" Ingrese mes:  ");
 	scanf("%s", &nuevo->mes);
-	printf("\nIngrese hora: ");
+	printf("ingrese hora: ");
 	scanf("%s",&nuevo->hora);
-	printf("\nIngrese status (completado/ incompleto): ");
-	scanf("%s",&nuevo->status);
 	
 	
 	if(primero==NULL){
@@ -128,7 +107,6 @@ void insertarNodo(){
 	}
 
 	printf("\n Nodo ingresado con exito\n\n");
-	numeroDeNodos += 1;
 	getchar();
 	getchar();
 	system("cls");
@@ -186,8 +164,6 @@ void modificarNodo(){
 				scanf("%s", &actual->mes);
 				printf("\n Ingrese la nueva hora ");
 				scanf("%s", &actual->hora);
-				printf("\n Ingrese el nuevo status ");
-				scanf("%s", &actual->status);
 				printf("\n Ingrese el nuevo dia: ");
 				scanf("%i", &actual->dia);
 				printf("\n Nodo modificado con exito\n\n");
@@ -251,36 +227,32 @@ void desplegarListaPU(){
 	nodo* actual = (nodo*)malloc(sizeof(nodo));
 	actual = primero;
 	printf("\nSi quieres el siguiente elemento presiona s, para el anterior presiona a\n");
-	//printf("Si quieres salir presiona e\n");
+	printf("Si quieres salir presiona e\n");
 	printf("El elemento mas reciente es:\n");
 	if(primero!=NULL){
 		while(actual != NULL){
-	  	char Selector = 's';
+	  char Selector;
 			printf("\n El dato es: %i", actual->dato);
 			printf("\n Su actividad: %s", actual->actividad);
 			printf("\n El lugar: %s", actual->lugar);
 			printf("\n El dia:%i", actual->dia);
 			printf(" de %s", actual->mes);
-			printf("\n a las: %s", actual->hora);
-			printf("\n Status: %s ", actual->status);
-			printf("\nPresione enter para ver la siguiente tarea\n");
-			getchar();
+			//printf("\nDigite su opcion");
 			//scanf("%s",&Selector);
 			//if(Selector == 's'){
 				actual = actual->siguiente;
 				getchar();
 				getchar();
+				system("cls");
 			//};
-		//	if(Selector == 'a'){
-			//actual = actual-> atras;	
+			//if(Selector == 'a'){
+			//	actual = actual-> atras;	
 			//	if (actual -> atras == NULL){
-			//	printf("no hay elemento anterior");
-			//	}else{
-			//	printf("Escoja una opcion valida");
-			//};
-			system("cls");
+			//	actual->atras = ultimo;
+			//	};
 			};
-		}else{
+		//}
+	}else{
 		printf("\n La lista se encuentra vacia\n\n");
 		getchar();
 		getchar();
