@@ -9,11 +9,15 @@ typedef struct nodo{
 	char actividad[250];
 	char lugar[250];
 	int dia;
-	char mes[12];
+	int mes;
 	char hora[8];
+	char status[20];
 	struct nodo* siguiente;
 	struct nodo* atras;
 }nodo;
+
+//La siguiente variable contendrá el numero de tareas que tenemos enlistadas.
+int numeroDeNodos = 0;
 
 //Inicializamos los punteros en un lugar vacío para irlos llenando poco a poco
 nodo* primero = NULL;
@@ -27,6 +31,8 @@ void buscarNodo();
 void modificarNodo();
 void eliminarNodo();
 void desplegarListaPU();
+void bubbleSort();
+void ActividadesMes();
 
 int main(){
 	system("color 4B");      //Cambia el color de la consola
@@ -38,27 +44,35 @@ int main(){
 			case 1:
 				printf("\n\n INSERTA TAREA EN LA LISTA \n\n");
 				insertarNodo();
-				getchar();
+				system("cls");
 				break;
 			case 2:
 				printf("\n\n BUSCAR UNA TAREA EN LA LISTA \n\n");
 				buscarNodo();
 				getchar();
+				getchar();
+				system("cls");
 				break;	
 			case 3:
 				printf("\n\n MODIFICAR UNA TAREA \n\n");
 				modificarNodo();
 				getchar();
+				getchar();
+				system("cls");
 				break;
 			case 4:
 				printf("\n\n ELIMINAR UNA TAREA DE LA LISTA \n\n");
 				eliminarNodo();
 				getchar();
+				getchar();
+				system("cls");
 				break;
 			case 5:
 				printf("\n\n DESPLEGAR LISTA DE TODAS LAS TAREAS DE LA PRIMERA A LA UTLIMA\n\n");
 				desplegarListaPU();
+				
 				break;
+				
 			case 6:
 				printf("\n\n Programa finalizado...");
 				return 0;
@@ -66,9 +80,23 @@ int main(){
 			case 7:
 				buscarNodo();
 				break;
+			case 8:
+				printf("las tareas enlistadas son: %i", numeroDeNodos);
+				getchar();
+				getchar();
+				system("cls");
+				break;
+			
+			case 9:
+				bubbleSort();
+				break;
+			case 10:
+				ActividadesMes();
+				break;
 						
 			default:
 				printf("\n\n Opcion No Valida \n\n");
+				getchar();
 				getchar();
 		}
 	}while(opcionMenu != 6);
@@ -79,19 +107,22 @@ int main(){
 //de un nuevo nodo
 void insertarNodo(){
 	nodo* nuevo = (nodo*)malloc(sizeof(nodo));
-	printf(" Ingrese el dato que contendra el nuevo Nodo: ");
+	printf("\nIngrese el dato que contendra el nuevo Nodo:  (numero) ");
 	printf("\n (el dato nos ayuda como ID de la tarea)\n");
 	scanf("%i", &nuevo->dato);
-	printf(" Ingrese actividad por hacer: ");
+	printf("\nSi los siguientes datos requieren de espacios, por favor en lugar de el usa guion bajo o notacion upper-lower cammel");
+	printf("\nIngrese actividad por hacer: ");
 	scanf("%s", &nuevo->actividad);
 	printf("\nIngrese lugar:");
 	scanf( "%s", &nuevo->lugar);
-	printf(" Ingrese dia: ");
+	printf("\nIngrese dia:(numero) ");
 	scanf("%i", &nuevo->dia); 
-	printf(" Ingrese mes:  ");
-	scanf("%s", &nuevo->mes);
-	printf("ingrese hora: ");
+	printf("\nIngrese mes:  ");
+	scanf("%i", &nuevo->mes);
+	printf("\nIngrese hora: ");
 	scanf("%s",&nuevo->hora);
+	printf("\nIngrese status (completado/ incompleto): ");
+	scanf("%s",&nuevo->status);
 	
 	
 	if(primero==NULL){
@@ -107,6 +138,7 @@ void insertarNodo(){
 	}
 
 	printf("\n Nodo ingresado con exito\n\n");
+	numeroDeNodos += 1;
 	getchar();
 	getchar();
 	system("cls");
@@ -161,9 +193,11 @@ void modificarNodo(){
 				printf("\n Ingrese el nuevo lugar ");
 				scanf("%s", &actual->lugar);
 				printf("\n Ingrese el nuevo mes ");
-				scanf("%s", &actual->mes);
+				scanf("%i", &actual->mes);
 				printf("\n Ingrese la nueva hora ");
 				scanf("%s", &actual->hora);
+				printf("\n Ingrese el nuevo status ");
+				scanf("%s", &actual->status);
 				printf("\n Ingrese el nuevo dia: ");
 				scanf("%i", &actual->dia);
 				printf("\n Nodo modificado con exito\n\n");
@@ -227,32 +261,25 @@ void desplegarListaPU(){
 	nodo* actual = (nodo*)malloc(sizeof(nodo));
 	actual = primero;
 	printf("\nSi quieres el siguiente elemento presiona s, para el anterior presiona a\n");
-	printf("Si quieres salir presiona e\n");
+	//printf("Si quieres salir presiona e\n");
 	printf("El elemento mas reciente es:\n");
 	if(primero!=NULL){
 		while(actual != NULL){
-	  char Selector;
 			printf("\n El dato es: %i", actual->dato);
 			printf("\n Su actividad: %s", actual->actividad);
 			printf("\n El lugar: %s", actual->lugar);
 			printf("\n El dia:%i", actual->dia);
-			printf(" de %s", actual->mes);
-			//printf("\nDigite su opcion");
-			//scanf("%s",&Selector);
-			//if(Selector == 's'){
+			printf(" de %i", actual->mes);
+			printf("\n a las: %s", actual->hora);
+			printf("\n Status: %s ", actual->status);
+			printf("\nPresione enter para ver la siguiente tarea\n");
+			getchar();
 				actual = actual->siguiente;
 				getchar();
 				getchar();
-				system("cls");
-			//};
-			//if(Selector == 'a'){
-			//	actual = actual-> atras;	
-			//	if (actual -> atras == NULL){
-			//	actual->atras = ultimo;
-			//	};
+			system("cls");
 			};
-		//}
-	}else{
+		}else{
 		printf("\n La lista se encuentra vacia\n\n");
 		getchar();
 		getchar();
@@ -270,14 +297,15 @@ void menu(){
 		printf("\n| 1. Insertar      | 5.Desplegar todo |");
 		printf("\n| 2. Buscar        | 6.Salir          |");
 		printf("\n| 3. Modificar     | 7. Busqueda      |");
-		printf("\n| 4. Eliminar      |                  |");		
+		printf("\n| 4. Eliminar      | 8.¿cuantas tareas|");
+		printf("\n|                  | tengo pendientes?|");
+		printf("\n|                  |                  |");		
 		printf("\n|******************|******************|");
 		printf("\n\n Escoja una Opcion: ");
 }
 
 
-
-//Aqui rato de explicar resumidamente el como funciona una lista doblemente ligada.
+//Aqui trato de explicar resumidamente el como funciona una lista doblemente ligada.
 // 13, 16, 2, 9
 
 // primero = 13      ultimo = 9      nuevo = 9      nodoBuscado = 2   encontrado = 0            actual    =  9        anterior   =  2                      13    16   2  9
@@ -286,9 +314,76 @@ void menu(){
 
 
 
+void bubbleSort(){
+	int i=0,viejo;
+	nodo* actual = (nodo*)malloc(sizeof(nodo));
+	actual = primero;
+	if(primero!=NULL){
+		while(actual != NULL){
+			for(i=0;numeroDeNodos-1;actual = actual->siguiente){        //con base en cuantos nodos tenemos
+			printf("avanzar\n");
+				//if(actual->mes<actual.siguiente->mes){
+				//	actual.dato = viejo;
+				//	nuevo.mes = nuevo.siguiente;
+				//	nuevo.siguiente = viejo; 
+				};
+					
+			}
+			//actual = actual->siguiente;
+			getchar();
+			getchar();
+			system("cls");
+		}else{
+		printf("\n La lista se encuentra vacia\n\n");
+		getchar();
+		getchar();
+		system("cls");
+	}
+	
+}
 
+void ActividadesMes(){
+	char mes[12];
+	//nodo* nuevo = (nodo*)malloc(sizeof(nodo));
+	nodo* actual = (nodo*)malloc(sizeof(nodo));
+		int nodoBuscado = 0, encontrado = 0;
+	printf(" Ingrese el dato del nodo a Buscar:" );
+	scanf("%d", &nodoBuscado);
+	
+	if(primero!=NULL){
+		while(actual != NULL && encontrado != 1){
+			
+			if(actual->dato == nodoBuscado){
+				printf("\n El nodo con el dato ( %d ) Encontrado\n\n", nodoBuscado);
+				encontrado = 1;
+			}
+			
+			actual = actual->siguiente;
+		}
+		if(encontrado == 0){
+			printf("\n Nodo no Encontrado\n\n");
+		}
+	
+	
+	
+	
+	printf("¿De que mes quieres ver tus actividades?\n");
+	scanf("%i",mes);
+	while(mes == actual->mes){
+			printf("\n El dato es: %i", actual->dato);
+			printf("\n Su actividad: %s", actual->actividad);
+			printf("\n El lugar: %s", actual->lugar);
+			printf("\n El dia:%i", actual->dia);
+			printf(" de %i", actual->mes);
+			printf("\n a las: %s", actual->hora);
+			printf("\n Status: %s ", actual->status);
+			printf("\nPresione enter para ver la siguiente tarea\n");
+			getchar();
+			actual = actual->siguiente;
+	}
 
-
+}
+}
 
 
 

@@ -239,6 +239,7 @@ void eliminarNodo(){
 					anterior->siguiente = actual->siguiente;
 					actual->siguiente->atras = anterior;
 				}
+				numeroDeNodos -= 1;
 				printf("\n Nodo eliminado con exito\n\n");
 				
 				encontrado = 1;
@@ -294,11 +295,11 @@ void menu(){
 		printf("\n|-------------------------------------|");
 		printf("\n|           Tareas pendientes         |");
 		printf("\n|------------------|------------------|");
-		printf("\n| 1. Insertar      | 5.Desplegar todo |");
-		printf("\n| 2. Buscar        | 6.Salir          |");
-		printf("\n| 3. Modificar     | 7. Busqueda      |");
-		printf("\n| 4. Eliminar      | 8.¿cuantas tareas|");
-		printf("\n|                  | tengo pendientes?|");
+		printf("\n| 1. Insertar      | 6.Salir          |");
+		printf("\n| 2. Buscar        | 7. Busqueda      |");
+		printf("\n| 3. Modificar     | 8.¿cuantas tareas|");
+		printf("\n| 4. Eliminar      | tengo pendientes?|");
+		printf("\n| 5.Desplegar todo | 9.Ordenar tareas |");
 		printf("\n|                  |                  |");		
 		printf("\n|******************|******************|");
 		printf("\n\n Escoja una Opcion: ");
@@ -315,31 +316,24 @@ void menu(){
 
 
 void bubbleSort(){
-	int i=0,viejo;
-	nodo* actual = (nodo*)malloc(sizeof(nodo));
-	actual = primero;
-	if(primero!=NULL){
-		while(actual != NULL){
-			for(i=0;numeroDeNodos-1;actual = actual->siguiente){        //con base en cuantos nodos tenemos
-			printf("avanzar\n");
-				//if(actual->mes<actual.siguiente->mes){
-				//	actual.dato = viejo;
-				//	nuevo.mes = nuevo.siguiente;
-				//	nuevo.siguiente = viejo; 
-				};
-					
-			}
-			//actual = actual->siguiente;
-			getchar();
-			getchar();
-			system("cls");
-		}else{
-		printf("\n La lista se encuentra vacia\n\n");
-		getchar();
-		getchar();
-		system("cls");
+	int i=0,j=0;
+	while(j!=numeroDeNodos){
+	do
+	{
+	struct nodo *qtr=NULL,*ptr=primero;
+	while(ptr->siguiente !=qtr)
+	{
+		if(ptr->mes>ptr->siguiente->mes)
+		{
+			swap(ptr,ptr->siguiente);
+			i=1;
+		}
+	 	ptr=ptr->siguiente;
 	}
-	
+	qtr=ptr;
+	}while(i);
+	j++;
+	}
 }
 
 void ActividadesMes(){
@@ -385,6 +379,13 @@ void ActividadesMes(){
 }
 }
 
+void swap(struct nodo *p, struct nodo *q)
+{
+	int temp;
+	temp=p->mes;
+	p->mes=q->mes;
+	q->mes=temp;
+}
 
 
 
